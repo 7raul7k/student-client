@@ -90,11 +90,11 @@ let base="http://localhost:8080/api/v1";
     }
 
 
-    async deleteCar(id) {
+    async deleteStudent(email) {
 
         try {
 
-            let data = await this.api(`/delete/id=${id}`, "DELETE")
+            let data = await this.api(`/delete/email=${email}`, "DELETE")
 
 
             if (data.status === 202) {

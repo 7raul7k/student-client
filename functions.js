@@ -68,7 +68,7 @@ function createRow(student) {
 
 function attachCreatePage(){
 
-	let body = document.querySelector('body');
+	let body = document.querySelector('.container');
 
 	body.innerHTML = `
 	<h1>New Student</h1>
@@ -106,6 +106,7 @@ function attachCreatePage(){
 
 	let studentService= new StudentService();
 	createStudent.addEventListener('click',()=>{
+    event.preventDefault();
 	
 		let inptFirstName = document.querySelector('#first-name');
 		let inptLastName = document.querySelector('#last-name');
@@ -115,16 +116,54 @@ function attachCreatePage(){
 
 		let newStudent = {firstName:inptFirstName.value,lastName:inptLastName.value,age:inptAge.value,adress:inptAdress.value,email:inptEmail.value}
 
-		studentService.addStudent(newStudent);
+    let errors = [];
+    if(inptFirstName.value !== "" && inptLastName.value !== "" && inptAge.value !== "" && inptAdress.value !== "" && inptEmail.value !== "" ){
 
-		homePage();
+      let esteSucces = studentService.addStudent(newStudent);
+
+      if(esteSucces){
+          homePage();
+      }else{
+        alert("Student exist !")
+      }
+
+    
+
+    }else{
+      for(const property in newStudent){
+
+        if(newStudent[property] === ""){
+
+        errors.push(`${property}:missing`);
+
+
+      }
+    
+    }
+    attachErrors(errors);
+		
 
 
 
-
+    }
 	})
 
 	
 }
+
+function attachErrors(errors){
+  let containerErrors = document.querySelector(".container-errors");
+
+  if (containerErrors) {
+      let text =`<ul class="error">`
+      errors.forEach(err=>{
+          text +=`<li>${err}</li>`;
+      });
+      text +="</ul>";
+
+      containerErrors.innerHTML = text;
+  } 
+}
+
 
 
