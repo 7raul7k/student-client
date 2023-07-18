@@ -35,6 +35,31 @@ function homePage() {
 	attachCreatePage();
   })
 
+  let studentContainer = document.querySelector(".container-students");
+
+  studentContainer.addEventListener("click",async (e)=>{
+
+    let target = e.target;
+
+    console.log(target);
+
+    if(target.classList.contains("first-name")){
+     
+      let studentRow = target.parentNode;
+  
+      let student = {
+          firstName: studentRow.querySelector('.first-name').textContent,
+          lastName: studentRow.querySelector('.last-name').textContent,
+          age: studentRow.querySelector('.age').textContent,
+          adress: studentRow.querySelector('.adress').textContent,
+          email: studentRow.querySelector('.email').textContent,
+      };
+  
+      attachUpdatePage(student);
+  }
+    
+  })
+
 
 }
 
@@ -55,14 +80,14 @@ async function attachRows() {
 }
 
 function createRow(student) {
-  console.log(student);
+
   return `
             <tr>
-				<td>${student.firstName}</td>
-				<td>${student.lastName}</td>
-				<td>${student.age}</td>
-				<td>${student.adress}</td>
-				<td>${student.email}</td>
+				<td class="first-name">${student.firstName}</td>
+				<td class="last-name">${student.lastName}</td>
+				<td class="age">${student.age}</td>
+				<td class="adress">${student.adress}</td>
+				<td class="email">${student.email}</td>
 			</tr>`;
 }
 
@@ -119,9 +144,9 @@ function attachCreatePage(){
     let errors = [];
     if(inptFirstName.value !== "" && inptLastName.value !== "" && inptAge.value !== "" && inptAdress.value !== "" && inptEmail.value !== "" ){
 
-      let esteSucces = studentService.addStudent(newStudent);
+      let isSuccess = studentService.addStudent(newStudent);
 
-      if(esteSucces){
+      if(isSuccess){
           homePage();
       }else{
         alert("Student exist !")
@@ -165,5 +190,47 @@ function attachErrors(errors){
   } 
 }
 
+function attachUpdatePage(student){
+
+  let container = document.querySelector(".container");
+
+ container.innerHTML = `
+ <h1>Update Student</h1>
+ <form>
+     <p>
+         <label for="first-name">First Name</label>
+         <input name="first-name" type="text" id="first-name" value="${student.firstName}">
+     </p>
+     <p>
+         <label for="last-name">Last Name</label>
+         <input name="last-name" type="text" id="last-name" value="${student.lastName}">
+     </p>
+     <p>
+         <label for="age">Age</label>
+         <input name="age" type="text" id="age" value="${student.age}">
+     </p>
+     <p>
+         <label for="adress">Adress</label>
+         <input name="adress" type="text" id="adress" value="${student.adress}">
+     </p>
+     <p>
+     <label for="email">Email</label>
+     <input name="email" type="text" id="email" value="${student.email}">
+     </p>
+     <p>
+         <input type="submit" value="Update Student">
+     </p>
+ </form>
+ <form method="post" action="/books/8/delete" onsubmit="return confirm('Do you really want to delete this book?');">
+     <p>
+         <a class="button" >Cancel</a>
+     </p>
+     <p><input type="submit" value="Delete Student"></p>
+ </form>`
+
+ 
+
+  
+}
 
 
