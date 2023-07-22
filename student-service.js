@@ -40,10 +40,10 @@ let base="http://localhost:8080/api/v1";
 
 
 
-    async editCar(car, id) {
+    async updateStudent(student) {
         try {
 
-            let data = await this.api(`/edit/id=${id}`, "PUT", car);
+            let data = await this.api(`/update`, "PUT", student);
 
             if (data.status === 202) {
                 let resp = await data.json();
@@ -64,6 +64,8 @@ let base="http://localhost:8080/api/v1";
     }
 
 
+    
+    
 
     async addStudent(student) {
 

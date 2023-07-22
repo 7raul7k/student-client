@@ -46,16 +46,23 @@ function homePage() {
     if(target.classList.contains("first-name")){
      
       let studentRow = target.parentNode;
-  
-      let student = {
+      let studentService = new StudentService();
+     
+      let studentSelected = {
           firstName: studentRow.querySelector('.first-name').textContent,
           lastName: studentRow.querySelector('.last-name').textContent,
           age: studentRow.querySelector('.age').textContent,
           adress: studentRow.querySelector('.adress').textContent,
           email: studentRow.querySelector('.email').textContent,
       };
+
+   
+
+      
+
+
   
-      attachUpdatePage(student);
+      attachUpdatePage(studentSelected);
   }
     
   })
@@ -218,15 +225,51 @@ function attachUpdatePage(student){
      <input name="email" type="text" id="email" value="${student.email}">
      </p>
      <p>
-         <input type="submit" value="Update Student">
+         <input class="update-student" type="submit" value="Update Student">
      </p>
  </form>
- <form method="post" action="/books/8/delete" onsubmit="return confirm('Do you really want to delete this book?');">
+ <form>
      <p>
          <a class="button" >Cancel</a>
      </p>
-     <p><input type="submit" value="Delete Student"></p>
+     <p><input class="delete-student" type="submit" value="Delete Student"></p>
  </form>`
+
+ let updateStudent = document.querySelector(".update-student");
+
+ let studentService= new StudentService();
+
+ updateStudent.addEventListener("click",(e)=>{
+  e.preventDefault();
+  let inptFirstName = document.querySelector('#first-name');
+  let inptLastName = document.querySelector('#last-name');
+  let inptAge = document.querySelector('#age')
+  let inptAdress = document.querySelector('#adress');
+  let inptEmail = document.querySelector('#email');
+
+  let newStudent = {
+    id: student.id,  
+    firstName: inptFirstName.value,
+    lastName: inptLastName.value,
+    age: inptAge.value,
+    adress: inptAdress.value,
+    email: inptEmail.value
+  }
+
+    studentService.updateStudent(newStudent);
+    
+
+    let deleteStudent  = document.querySelector(".delete-student");
+
+    deleteStudent.addEventListener("click",(e)=>{
+      e.preventDefault();
+      studentService.deleteStudent(student.email.value);
+
+      homePage();
+    })
+ 
+
+ })
 
  
 
