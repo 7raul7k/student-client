@@ -1,11 +1,11 @@
 
-let base="http://localhost:8080/api/v1";
+
 
  class StudentService {
 
     api(path, method = "GET", body = null) {
 
-        const url = base + path;
+        const url = "http://localhost:8080/api/v1" + path;
 
         const options = {
             method,
@@ -59,7 +59,7 @@ let base="http://localhost:8080/api/v1";
 
 
         } catch (error) {
-            message.error(error, [3], console.log(error))
+            console.log(error)
         }
     }
 
@@ -96,7 +96,7 @@ let base="http://localhost:8080/api/v1";
 
         try {
 
-            let data = await this.api(`/delete/email=${email}`, "DELETE")
+            let data = await this.api(`/delete?email=${email}`, "DELETE")
 
 
             if (data.status === 202) {
@@ -107,12 +107,12 @@ let base="http://localhost:8080/api/v1";
             } else {
                 let resp = await data.json();
 
-                message.error(resp.error.message, [3], console.log(""))
+              
             }
 
 
         } catch (error) {
-            message.error(error, [3], console.log(error))
+           console.log(error)
         }
 
     }
